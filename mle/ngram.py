@@ -55,7 +55,7 @@ class NGramBase:
         `words` under the *unsmoothed* `N`-gram language model.
         """
         assert N in self.counts, "You do not have counts for {}-grams".format(N)
-        assert len(words) <= N - 1, "Need > {} words to use {}-grams".format(N - 2, N)
+        assert len(words) <= N - 1, "Need > {} words to use {}-grams".format(N - 2, N) # words here refers to a sequence
 
         if isinstance(words, list):
             words = tuple(words)

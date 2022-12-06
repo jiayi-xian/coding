@@ -11,7 +11,6 @@ def KNN_1sample(target, X, y, K):
 	label_cnt = np.bincount(y[sorted_idxs[:K]])
 	return np.argmax(label_cnt)
 	
-	
 def KNN_np(Xt, X, y, K):
 	
 	return np.apply_along_axis(KNN_1sample, 1, Xt, *(X, y, K))
@@ -24,24 +23,29 @@ dataset = pd.read_csv("data/IRIS.csv") # 不要制定head 或者设成None 否�
 # df= pd.read_csv("data/IRIS.csv", header=[0])
 dataset.head()
 
-
-
 #Seperating the input features and output labels
 # X = dataset.iloc[:, :-1].values #iloc X contains columns
 X = dataset.iloc[:, :-1].values
 y = dataset.iloc[:, -1].values
 #converting text labels to numeric form
 labels, unique = pd.factorize(y) ##TODO ??pd.factorize
-
+# dataset['species'] = pd.factorize(dataset['species'])[0]
 
 #splitting data in test and train segments
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
+X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size = 0.40)
+X_train = X_train.astype('float')
+X_test = X_test.astype('float')
+#X_train, X_test = d2numeric(X_train), d2numeric(X_test)
 
 res = KNN_1sample(X[5], X, labels, 5)
 res2 = KNN_np(X[[5,25,50,100]], X, labels, 10)
 print("Dont")
+
+
+
 
 def d2numeric(dataset):
     return dataset[dataset.columns[:-1]][1:].apply(pd.to_numeric, axis=0)
@@ -58,10 +62,3 @@ def dist_pd(target, X):
     return df.apply(lambda x: (x**2).sum()**.5, axis=1)
     return np.linalg.norm(df[['X','Y','Z']].values,axis=1)
 
-X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size = 0.40)
-X_train = X_train.astype('float')
-X_test = X_test.astype('float')
-#X_train, X_test = d2numeric(X_train), d2numeric(X_test)
-
-dist(X_test[1], X_train)
-print("Done")
