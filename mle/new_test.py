@@ -1,4 +1,4 @@
-$P( w_n |w_1 , \ldots, w_{n-1})$
+
 
 # n gram model 
 

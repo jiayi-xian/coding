@@ -207,5 +207,18 @@ def datapipeline(path):
     """Method 1: Rename Specific Columns df. rename(columns = {'old_col1':'new_col1', 'old_col2':'new_col2'}, inplace = True)
     Method 2: Rename All Columns df. columns = ['new_col1', 'new_col2', 'new_col3', 'new_col4']
     Method 3: Replace Specific Characters in Columns df."""
+    #Drop the rows where all elements are missing.
 
+    df.dropna(how='all')
+
+    # Keep only the rows with at least 2 non-NA values.
+
+    df.dropna(thresh=2) 
     # drop columns: df.drop(['B', 'C'], axis=1), df.drop(columns=['B', 'C'])
+
+    # drop duplicate
+    df.drop_duplicates()
+    df.drop_duplicates(subset=[''])
+    #To remove duplicates and keep last occurrences, use keep.
+
+    df.drop_duplicates(subset=['brand', 'style'], keep='last')

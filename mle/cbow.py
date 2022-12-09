@@ -1,7 +1,7 @@
 # https://github.com/sam-iitj/CBOW/blob/master/cbow_model.py
 
 import numpy as np 
-import nltk 
+#import nltk 
 
 class cbow:
 	"""
@@ -45,7 +45,7 @@ class cbow:
 		This function returns a vector representation 
 		using the onehot encoding. 
 		"""
-		temp = np.dot(self.V, one_hot) # take the i-th row of self.V as hidden representation of i-th word in vocabulary
+		temp = np.dot(self.V, one_hot) # take the j-th column of self.V as hidden representation of j-th word in vocabulary
 		return temp
 
 	def get_average_vector_context(self, left_context=None, right_context=None):
@@ -58,7 +58,7 @@ class cbow:
 
 		for word in left_context:							# Processing words in the left context 
 			current_word_index = self.word_index[word]				# Get the index of the neighbouring word
-			one_hot_encoding = self.get_one_hot(current_word_index) 		# get the one hot encoding of the current word 
+			one_hot_encoding = self.get_one_hot(current_word_index) 		# get the one hot encoding of the current word
 			avg_vector += self.get_representation_from_onehot(one_hot=one_hot_encoding)
 
 		for word in right_context:							# Continue the same for the words in the right context 
@@ -76,14 +76,14 @@ class cbow:
 		"""
 		print("U shape = " + str(self.U.shape))
 		print("Average vector shape = " + str(avg_vec.shape))
-		return np.dot(self.U, avg_vec)
+		return np.dot(self.U, avg_vec) # each row of U as a word
 
 	def softmax(self, x):
 		"""
 		Return the softmax output of the given function.
 		"""
 		if x.ndim > 1:
-			x -= np.max(x, axis=1).reshape(-1, 1)
+			x -= np.max(x, axis=1).reshape(-1, 1) # # operands could not be broadcast together with shapes (x.ndim, k) (x.ndim,) , reshape (x.ndim, ) to (x.ndim, 1) so broadcast works
 			x = np.exp(x)/np.sum(np.exp(x), axis=1).reshape(-1, 1)
 		else:
 			x -= np.max(x)
@@ -186,6 +186,20 @@ class cbow:
 		print("V matrix = %s " + str(self.V))
 
 
+def softmax(x):
+	"""
+	Return the softmax output of the given function.
+	"""
+	if x.ndim > 1:
+		x -= np.max(x, axis=1).reshape(-1, 1)  
+		x = np.exp(x)/np.sum(np.exp(x), axis=1).reshape(-1, 1)
+	else:
+		x -= np.max(x)
+		x = np.exp(x)/np.sum(np.exp(x))
+	return x
+
+X = np.random.rand(4, 3)
+softmax(X)
 
 text = nltk.corpus.gutenberg.words('austen-emma.txt')
 text = ' '.join(text[:100])
