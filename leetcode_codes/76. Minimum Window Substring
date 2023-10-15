@@ -1,0 +1,36 @@
+# 76. Minimum Window Substring
+# https://leetcode.com/problems/minimum-window-substring/description/
+
+from collections import Counter
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+
+        left, right = 0 ,0
+        L = len(s)
+        count = Counter(t)
+        criterion = len(t)
+        minL = float("inf")
+        res = ""
+
+        while right < L:
+            c = s[right]
+            if c in count:
+                count[c] -= 1
+                if count[c] >= 0:
+                    criterion -= 1
+
+                while criterion == 0:
+                    curL = right - left + 1
+                    if curL < minL:
+                        minL = curL
+                        res = s[left : right+1]
+                    left += 1
+                    c = s[left-1:left]
+                    if c in count:
+                        count[c] += 1
+                        if count[c] > 0:
+                            criterion += 1
+            right += 1
+        
+        return res

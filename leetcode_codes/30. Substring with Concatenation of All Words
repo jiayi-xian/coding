@@ -1,0 +1,66 @@
+from typing import List
+from collections import Counter
+
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+
+        
+        l = len(words[0])
+        L = len(words)
+        cnt = Counter(words)
+        count = cnt.copy()
+        violation = 0
+        criterion = L
+        res = []
+
+
+        for i in range(l): # offset
+            
+            left, right = i, i
+            count = cnt.copy() # reset count
+            criterion = L # reset criterion
+            violation = 0 # reset violation
+            while left <= len(s) - l*L:
+                while right <= left + l * (L-1) and right < len(s):
+                    word = s[right:right+l]
+                    if word not in count:
+                        # move left, right to right + l to skip the word not in words
+                        left = right + l
+                        right = right + l
+                        count = cnt.copy() # reset count
+                        criterion = L # reset criterion
+                        violation = 0 # reset violation
+                        continue
+                        
+                    elif word in count:
+                        if count[word] > 0:
+                            count[word] -= 1
+                            criterion -= 1
+                            if criterion == 0 and violation == 0:
+                                res.append(left)
+                                left += l
+                                right += l
+                                count[s[left - l: left]] += 1
+                                criterion += 1
+                                continue
+                        elif count[word] <= 0: # we have an excess word #TODO if -> elif
+                            count[word] -= 1
+                            violation += 1
+                            # move left pointer until violation == 0
+                            while violation > 0 and left <= right:
+                                word = s[left: left + l]
+                                count[word] += 1
+                                if count[word] <= 0:
+                                    violation -= 1
+                                else:
+                                    criterion += 1
+                                left += l               # TODO delete left += l if violation == 0 we shouldn't move left ahead
+
+                        right += l
+        return res
+
+s = "aaaaaaaaaaaaaa"
+words = ["aa","aa"]
+sol = Solution()
+res = sol.findSubstring(s, words)
+print("done")
