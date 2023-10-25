@@ -13,3 +13,6 @@ transpose = list(map(list,zip(*reversed(board))))
 
 
 
+
+
+
