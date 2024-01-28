@@ -1,36 +1,14 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+def numDistinct(s: str, t: str) -> int:   
+    
+    ns, nt = len(s)+1, len(t)+1
+    dp = [ [0 for _ in range(nt) ] for _ in range(ns)]
+    # dp[i][j] : ways tp generate string t[:j] from s[:i]
 
-        # 非常重要！不需要else
-        hq = [[x.val, idx] for idx, x in enumerate(lists) if x]
-        heapq.heapify(hq)
-        dummy = ListNode()
-        node = dummy
-        #lists = [x.next if x else None for x in lists ]
-
-        while hq:
-            # 1. get current minimm and update result
-            cur_min, list_idx = heapq.heappop(hq)
-                # append it to result
-            node.next = lists[list_idx]
-                # update pointer
-            node = node.next
-
-            # 2. prepare the next item to push in priority queue
-            lst_nex = lists[list_idx].next
-            
-            if lst_nex is not None:
-                item2push = [lst_nex.val, list_idx]
-                heapq.heappush(hq, item2push)
-            
-            # 3. update linked list head
-            lists[list_idx] = lists[list_idx].next
-
-        return dummy.next
-
-        # n*logk (n = sum(length of linkedlist in lists)
+    for i in range(ns):
+        dp[i][0] = 1 # non empty string s[:i] generate empty string t[:0]
+    
+    for i in range(1, ns):
+        for j in range(1, nt):
+            dp[i][j] = dp[i-1][j] + dp[i-1][j-1]*(s[i-1]==t[j-1])
+    
+    return dp[ns][nt]

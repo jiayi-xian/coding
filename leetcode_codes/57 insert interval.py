@@ -1,4 +1,3 @@
-```
 from typing import List
 def binary_search(x, n):
     s = 0
@@ -38,4 +37,3 @@ class Solution:
         #adding remaining elements to the list
         res += intervals[k:]  
         return res
-```
