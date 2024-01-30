@@ -1,0 +1,50 @@
+
+class STree:
+    
+    def __init(self, N):
+      # N: number of elements in an array
+        self.tree = [0] * 2*N   # 1+2^1 +  ... + 2^H = 2^(H+1) -1 = 2* 2*N (N is the number of leaves and it equals to  2^H) H=log_2N the height of the tree
+    
+    def build(self, arr, l, r, idx):
+        
+        if l == r:
+           self.tree[idx] = arr[l]
+           return arr[l]
+        # l, r: left, right index in array
+        # idx: the index of root
+
+        mid = l + (r-l) // 2
+        self.tree[idx] += self.build(arr, l, mid, idx*2+1) # 不能是idx*2 试想idx是零的情况
+        self.tree[idx] += self.build(arr, mid+1, idx*2+2)
+
+        return self.tree[idx]
+
+    def query(self, ql, qr, l, r, idx):
+        if ql <= l and qr >= r:
+            return self.tree[idx]
+
+        if ql > r or qr < l:
+            return 0
+
+        mid = l + (r-l)//2
+
+        return self.query(ql, qr, l, mid, idx*2+1) + self.query(ql, qr, mid+1, r, idx*2+2)
+        
+    def update(self, pos, l, r, idx, val):
+        if pos == l == r:
+            diff = - self.tree[pos] + val
+            self.tree[pos] = val
+            return diff
+        if pos < l or pos > r:
+            return 0
+        
+        mid = l + (r-l)//2
+        if pos > mid:
+            diff = self.update(pos, mid+1, r, idx*2+2, val)
+        else:
+            diff = self.update(pos, l, mid, idx*2+1, val)
+
+        return diff
+    
+      
+      

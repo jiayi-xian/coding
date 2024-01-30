@@ -1,0 +1,148 @@
+<mxfile host="65bd71144e">
+    <diagram id="Sj-CFPZbQcf5PIDSLsaI" name="Page-1">
+        <mxGraphModel dx="1107" dy="755" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="4" style="edgeStyle=none;html=1;" edge="1" parent="1" source="2" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="InstDisc&lt;br&gt;" tooltip="个体判别任务&#10;外部结构memory bank -&gt; big dictionary 存负样本&#10;&#10;&#10;" id="2">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="60" y="50" width="70" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="6" style="edgeStyle=none;html=1;" edge="1" parent="1" source="3" target="5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="MoCo v1" tooltip="memorybank -&gt; queue&#10;动量更新特征变成了动量更新编码器&#10;第一个比美非对比学习的performance&#10;" id="3">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="60" y="130" width="70" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="7" style="edgeStyle=none;html=1;entryX=0.354;entryY=-0.061;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="5" target="8">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="95" y="330" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <UserObject label="MoCo v2" tooltip="看到SimCLR堆技术后提到的巨大提升&#10;也对Moco进行了堆技术" id="5">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="60" y="210" width="70" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="MoCo v3" tooltip="ViT时代&#10;主要是把ResNet转为transformer&#10;但问题是不稳定&#10;为了解决这个问题&#10;DINO提出将teacher network的output先做normalization&#10;MoCo v3提出将patch projection layer frozen" id="8">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="70" y="460" width="70" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="15" style="edgeStyle=none;html=1;entryX=0.983;entryY=0.659;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="9" target="5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" style="edgeStyle=none;html=1;" edge="1" parent="1" source="9" target="10">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="SimCLR v1" tooltip="堆技术&#10;加大了bsz&#10;用了更多的数据增强&#10;用了projection head" id="9">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="305" y="130" width="80" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="12" value="" style="edgeStyle=none;html=1;startArrow=none;" edge="1" parent="1" source="14" target="11">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="SimCLR v2" tooltip="对simCLR v1进行了模型改动&#10;半监督学习" id="10">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="305" y="210" width="80" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="35" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="11" target="34">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="SimSiam" tooltip="化繁为简&#10;Siamise network&#10;不需要负样本&#10;它认为SGD是至关重要的 所以siamise不会模型坍塌&#10;&#10;" id="11">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="310" y="380" width="70" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="13" value="" style="edgeStyle=none;html=1;endArrow=none;" edge="1" parent="1" source="10" target="14">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="345" y="300" as="sourcePoint"/>
+                        <mxPoint x="345" y="380" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="20" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="14" target="19">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="BYOL" tooltip="不要负样本，自己和自己学&#10;变对比学习为预测任务&#10;MSE loss" id="14">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="315" y="300" width="60" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="18" style="edgeStyle=none;html=1;entryX=0.498;entryY=0.011;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="17" target="9">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="InvaSpread" tooltip="end2end no external structure like memory bank&#10;performance is affected by batch size of negtive samples" id="17">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="305" y="45" width="80" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="22" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="19" target="21">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="BN Blog" tooltip="认为BYOL的成功主要取决于batch norm&#10;batch norm提供了隐式负样本&#10;没有batch norm BYOL就不行了" id="19">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="450" y="300" width="70" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="BYOL v2" tooltip="通过一系列实验说明了&#10;BN只是帮助了训练&#10;如果我们使用另外一种初始化 也能达到同样的效果&#10;但也只是另外一个假设" id="21">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="570" y="300" width="70" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="28" style="edgeStyle=none;html=1;entryX=0.486;entryY=0.045;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="23" target="27">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="CPC v1" tooltip="InfoNCE loss&#10;预测型代理任务&#10;可以用于视频 音频 图像" id="23">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="430" y="45" width="60" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="26" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="24" target="25">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="CMC" tooltip="CMC&#10;两个视角扩展到多视角&#10;为多视角或多模态学习做铺垫" id="24">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="570" y="45" width="50" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Infomin" tooltip="提出了观点&#10;多视角之间的互信息要不多不少才好" id="25">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="565" y="210" width="60" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="CPC v2" tooltip="CPC v2 也用了所有SimCLR的技术&#10;" id="27">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="430" y="210" width="60" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="31" style="edgeStyle=none;html=1;entryX=0.486;entryY=0.032;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="29" target="30">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Deepcluster" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="665" y="45" width="90" height="30" as="geometry"/>
+                </mxCell>
+                <UserObject label="SWaV" tooltip="结合了聚类学习和对比学习 取得了不错的结果&#10;multi crop技术&#10;如果没有multi crop技术 其实和simCLR v2 Moco v2 差不多" id="30">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="680" y="210" width="60" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="32" value="BarlosTwins" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="440" y="380" width="90" height="30" as="geometry"/>
+                </mxCell>
+                <UserObject label="DINO" tooltip="ViT时代&#10;主要是把ResNet转为transformer&#10;但问题是不稳定&#10;为了解决这个问题&#10;DINO提出将teacher network的output先做normalization&#10;MoCo v3提出将patch projection layer frozen" id="34">
+                    <mxCell style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                        <mxGeometry x="320" y="460" width="50" height="30" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

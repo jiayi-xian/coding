@@ -24,12 +24,13 @@ class Graph():
         --------
         """
         # base case: a cycle is detected
-        if visited[u] == 2:
+        # if we reach a node with state as visiting then we get
+        if visited[u] == 2: #如果不对当前node check 这个==2 那必须在visit u 之前check这一个条件已判断是否有cycle 有点像bfs的popleft那一层
             return True
         
         for v in graph[u]:
             # iterate over all the neigbours of u to check if there is a cycle
-            if visited[u] != 1: # check unvisited nodes
+            if visited[v] != 1: # check unvisited nodes
                 visited[u] = 2 # marked as browsing
                 if self.isCycle1(v, visited, graph):
                     return True
@@ -37,13 +38,60 @@ class Graph():
         visited[u] = 1
         return False
     
+    
+    def isCycle1_(self, u, visited, graph):
+        """
+        Check if any path starting from u forms a cycle
+        Parameters:
+        -----------
+        graph: dict {u:[v1, v2, ...]} (u,vi) is an edge in graph
+        u: node
+        visited: (n,)
+        list of int: 1: visited; 0: unvisited; 2: visiting
+        Returns:
+        bool, True if there is a cycle else False
+        --------
+        """
+        # base case: a cycle is detected
+        # if we reach a node with state as visiting then we get
+        if visited[u] == 2:
+            return True
+        
+        visited[u] = 2 # marked as browsing its neighbours
+        # start browsing neighbours
+        for v in graph[u]:
+            # iterate over all the neigbours of u to check if there is a cycle
+            if visited[v] != 1: # check unvisited nodes 
+                if self.isCycle1_(v, visited, graph):
+                    return True
+            """
+            if visited[v] == 2:
+                return True
+            elif visited[v] == 0:
+                if self.isCycle1_(v, visited, graph):
+                    return True
+            """
+        # finished browsing neighbours
+        visited[u] = 1
+        return False
     def isCyclic1(self):
         visited = [False] * (self.V + 1)
         for node in range(self.V):
             if visited[node] != 1:
-                if self.isCycle1(node,visited,self.graph) == True:
+                if self.isCycle1(node,visited,self.graph) == True: # 如果dfs里面不check node state 这里要check是不是state为2， 然后只visit unvisited的node
                     return True
         return False
+    
+    """
+    for all the optional branches:
+        if xxx:
+            return True
+    reuturn False
+
+    这是经典的res是并运算(union)的结果。但是比设res = False, res |= dfs(x) 要好，因为只要有一个true就不需要运行下去了
+    
+    """
+
 
         # topological sort: topological sort is implemented using dfs, which is very similar to the above
         # The difference is instead of marking the nodes, storing nodes in stack by visiting order.
@@ -71,6 +119,11 @@ class Graph():
         stack.append(u)
         return stack, visited
         # the way that checking if a cycle exists through toposort is to check the order sequence for each edge u->v in the topoSort stack. If for some edge u -> v, ord(u) > ord(v). Then there is a cycle 
+    def checkOrder(stack, graph):
+        # stack: result stack from topoSort [c <- b <- a]
+        node2idx = {node:idx for idx, node in enumerate(stack)} # dict([(node, idx) for idx, node in enumerate(stack[::-1])])
+
+
 
     def isCycle2(self, v, visited, recStack):
  
