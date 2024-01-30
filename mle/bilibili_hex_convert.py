@@ -50,12 +50,14 @@ def move_mp4_files(source_directory, target_directory):
         print(f"Moved file: {filepath} to {new_filepath}")
 
 # Source and target directories
-source_directory = '/Users/jiayixian/Movies/bilibili'
-target_directory = '/Users/jiayixian/Movies/bilibili/ai_limu_audio'
+source_directory = '/Users/jiayixian/Movies/21_meditation'
+target_directory = '/Users/jiayixian/Movies/21_meditation/mp4'
+
+
+
+# 使用示例
+directory = '/Users/jiayixian/Movies/21_meditation'  # 基础文件夹路径
+process_files(directory)
 
 # Execute the function
 move_mp4_files(source_directory, target_directory)
-
-# 使用示例
-directory = '/Users/jiayixian/Movies/bilibili'  # 基础文件夹路径
-#process_files(directory)
