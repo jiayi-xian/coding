@@ -1,108 +1,56 @@
 
-from typing import List
+from typing import *
+from collections import *
+from itertools import *
 import copy
-def shortestPathAllKeys(grid: List[str]) -> int:
+class Solution:
+    def shortestPathAllKeys(self, grid: List[str]) -> int:
 
-    # components: 
-    # walkable ways at [x, y]
-    # 
-    keys = []
+        # 在最短路径上，不可能我们经过了某个房间两次，并且这两次我们拥有钥匙的情况是完全一致的。
+        # states: 
+        G = grid
+        m, n = len(grid), len(grid[0])
 
 
-    # 对BFS来说 我们建立 visited set ( "|".join([x,y,"".join(sorted(keys)))), q, 记录步数
-    G = [list(item) for item in grid]
-    nrow, ncol = len(G), len(G[0])
-    neis = lambda x,y : [[nx, ny] for nx, ny in [[x-1, y],[x, y-1],[x, y+1],[x+1, y]] if 0<= nx <= nrow-1 and  0<= ny <= ncol-1]
+        #  search for start
+        # start = [G[x][y] for x in range(m) for y in range(n) if G[x][y] =="@"]
+        start = [[x,y] for x in range(m) for y in range(n) if G[x][y] =="@"]
+        # search for number of keys
+        nkey = sum([1 for x in range(m) for y in range(n) if G[x][y].islower()])
+        dirs = (-1, 0, 1, 0, -1)
+        neis = lambda x, y : [ [x+dx, y+dy] for dx, dy in pairwise(dirs) if 0<=x+dx < m and 0 <= y+dy < n]
 
-    for idx_r, rows in enumerate(G):
-        for idx_c, item in enumerate(rows):
-            if item == "@":
-                start = [idx_r, idx_c]
-            if item.islower():
-                keys.append([idx_r, idx_c, item])
-    import string
-    step = 0
-    cur_keys = [0 for _ in range(26)]
-    open_locks = [0 for _ in range(26)]
-    keys_get = 0
-    visited = set()
-    if len(keys) == 0:
-        return 0
-    from collections import deque
-    def zip_state(x, y, cur_keys, keys_get):
-        keys_str = ",".join(list(map(str, cur_keys)))
-        #locks_str = ",".join(locks)
-        return "|".join([str(x),str(y),keys_str, str(keys_get)])
-    
-    def unzip_state(state):
-        x,y,keys_str, keys_get_str = state.split("|")
-        cur_keys = keys_str.split(",")
-        cur_keys = list(map(int, cur_keys))
-        keys_get = int(keys_get_str)
-        return int(x), int(y), cur_keys, keys_get
-    
-    def get_path(prenodes, state):
-        path = [state]
-        cnt = 0
-        while state is not None:
-            cnt += 1
-            state = prenodes[state]
-            path.append(state)
-        return path[::-1]
-            
+        start_node = (start[0][0], start[0][1], 0)
+        q = [(start[0][0], start[0][1], 0)]
+        q = deque(q)
+        vis = set(start_node)
+        steps = 0
 
-    visited=set([zip_state(start[0], start[1], cur_keys, keys_get)])
-    q= deque([zip_state(start[0], start[1], cur_keys, keys_get)]) # x,y,cur_keys,
-    prenodes = {}
-    prenodes[zip_state(start[0], start[1], cur_keys, keys_get)] = None
-    path = []
-    while q:
-        L = len(q)
-        for _ in range(L):
-            cs = q.popleft()
-            x, y, cur_keys, keys_get = unzip_state(cs)
-            if keys_get == len(keys): 
-                path = [cs]
-                while prenodes[cs] is not None:
-                    path.append(cs)
-                    cs = prenodes[cs]
-                return step, path[::-1]
-            for nx, ny in neis(x,y):
-                nc = G[nx][ny]
-                ns0 = zip_state(nx, ny, cur_keys, keys_get)
-                if nc == "." or nc == "@":
-                    if ns0 not in visited:
-                        ns = ns0
-                        q.append(ns)
-                        prenodes[ns] = cs
-                        visited.add(ns)
-                elif nc.islower(): # get a keys
-                    if cur_keys[ord(nc)-ord("a")]==0:
-                        cur_keys_ = copy.deepcopy(cur_keys)
-                        cur_keys_[ord(nc)-ord("a")] += 1
-                        # '4|2|1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0|5'
-                        ns = zip_state(nx, ny, cur_keys_, keys_get+1)
-                        if keys_get + 1 == len(keys): 
-                            prenodes[ns] = cs
-                            return step+1, get_path(prenodes,ns)
-                    else:
-                        ns = ns0
-                    if ns not in visited:
-                        q.append(ns)
-                        prenodes[ns] = cs
-                        visited.add(ns)
-                elif nc.isupper() and cur_keys[ord(nc.lower())-ord("a")]>0: # encounter a lock and have a key  
-                    if ns0 not in visited:
-                        #cur_keys[ord(nc.lower())-ord("a")] -=1
-                        #G[nx][ny] = "."
-                        ns = ns0
-                        q.append(ns)
-                        prenodes[ns] = cs
-                        visited.add(ns)
-                else:
-                    continue
-        step += 1
-    return visited
+        while q:
+            for _ in range(len(q)):
+
+                x, y, ks = q. popleft()
+                if ks == (1<<nkey) - 1: return steps
+
+                for nx, ny in neis(x, y):
+                    cur = G[nx][ny]
+
+                    if cur.islower(): # key
+                        ks_new = ks | 1 << (ord(cur)-ord("a"))
+                        if (nx, ny, ks_new) not in vis:
+                            vis.add((nx, ny, ks_new))
+                            q.append((nx, ny, ks_new))
+                    elif cur.isupper() and (ks & (1 << (ord(cur) - ord("A")))): # lock with key applicable
+                        if (nx, ny, ks) not in vis:
+                            vis.add((nx, ny, ks))
+                            q.append((nx,ny,ks))
+                    elif cur in ("@", "."): # empty 要注意@的情况 这里不能是cur != "#" 前面的情况都是允许step on的情况，而cur != "#"不满足这个条件，这包括了碰到锁单没有钥匙的情况
+                        if (nx, ny, ks) not in vis:
+                            vis.add((nx, ny, ks))
+                            q.append((nx,ny,ks))
+            steps += 1
+
+        return -1
 
 grids =[
 ["Dd#b@",
@@ -116,3 +64,11 @@ for grid in grids:
     print(shortestPathAllKeys(grid))
 
 x = ["@...a",".###A","b.BCc"]
+
+
+def check_kth_bit(state, k):
+    mask = 1 << k  # 将 1 向左移动 k 位，创建掩码
+    if state & mask:
+        return True  # 第 k 位为 1
+    else:
+        return False  # 第 k 位为 0

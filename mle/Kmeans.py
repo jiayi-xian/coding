@@ -76,8 +76,8 @@ class KMeans:
         self.centroids.append(first)
         for i in range(self.n_clusters - 1):
         
-            # calculate dists from points to the centroids
-            dists = np.mean([kmean_euclidean(centroid, X) for centroid in self.centroids], axis = 0)
+            # calculate mean dists from points to the centroids
+            dists = np.mean([kmean_euclidean(centroid, X) for centroid in self.centroids], axis = 0) # K, N -> mean -> N,
             # Normalize the distances
             dists = dists / np.sum(dists)
             # choose remaining points based on their distances
