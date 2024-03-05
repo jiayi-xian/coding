@@ -30,11 +30,9 @@ Those metric gives us insight what the model should improved in the future devel
 
 ##### Moving to the feature engineering section
 
-Given a post, we have its author, when it is posted, what is current response (time delay feature), its content
+Given a post, I would like to devide features into three sub cateogires
 
-I would like to devide features into three sub cateogires
-
-author features
++ author features
 
 includes
 
@@ -44,35 +42,33 @@ records of being flag flag, report, thumsup, comments, followers, following...
 
 (for pineters) user interest vector (last n saved pins)
 
-post features
++ post features
+  ```post ID
+  author ID
+  author IP TODO
+  timestamp TODO
+  device one hot or embedding
+  links contained: check if the links directed to some unsafe website TODO
+  Example: Pins ( Title, Description, Link, Board, Tagged topics, ...)
+  content```
 
-post ID
-author ID
-author IP TODO
-timestamp TODO
-device one hot or embedding
-links contained: check if the links directed to some unsafe website TODO
-Example: Pins ( Title, Description, Link, Board, Tagged topics, ...)
-content
++ User-post interactions
+  ```User ID
+  Post ID
+  Interaction type: comment(unstructured), flag(one hot), like(numberical), report(one hot, report type), share(numberical) ... (numbers: numberical scaled) TODO
+  Interaction value: "This is disgusting", NA, NA, violence, NA
+  
+  Timestamp
+  ```
 
-User-post interactions
-User ID
-Post ID
-Interaction type: comment(unstructured), flag(one hot), like(numberical), report(one hot, report type), share(numberical) ... (numbers: numberical scaled) TODO
-
-Interaction value: "This is disgusting", NA, NA, violence, NA
-
-Timestamp
-
-Unstructured:
-content (feature extracter: backbone of resNet ViT, Bert, CLIP, InstructBlip, Glip)
-
-image features
-text features:
-text preprocessing: normalization, tokenization
-vectorization: convert the preprossed text into a meaningful feature vector
-We adopt NLP model such as BERT, DistilmBERT, multilingual issue, speed issue (fast inference)
-TODO unicode BPE
++ Unstructured:
+  + content (feature extracter: backbone of resNet ViT, Bert, CLIP, InstructBlip, Glip)
+  + image features
+  + text features:
+    + text preprocessing: normalization, tokenization
+    + vectorization: convert the preprossed text into a meaningful feature vector
+  + We adopt NLP model such as BERT, DistilmBERT, multilingual issue, speed issue (fast inference)
+    + TODO unicode BPE
 
 image: decode, resize, and normalize the data
 feature extraction: pre-trained model to convert unstructured data to a feature vector. CLIP visual encoder or SimCLR
@@ -123,9 +119,6 @@ let's find a better place to go (redirect links)
 tripadvisor: this page is on vacation.. and you should be too. Let's get you restarted
 looks like this page doesn't fit what you were looking for.
 Try one of these on for size!
-
-
-
 
 Remember: there could be still a lots of elements in the soft 404 pages. such as a search bar, a way for users to report a broken link, a contact page or a contact form. Home page and the popular pages are usually included in  the hot blog articles or items when try to retrin the user
 
@@ -215,13 +208,29 @@ Multitask: different sub categories of soft 404
 Data preparation:
 collect 404
 
+
+
+插件提取html内容发送到服务器，对DOM元素进行分析，通过学习的方法找出标题和正文。
+
+里面有一些机器学习和自然语言处理的算法
+
+比如什么是标题，可以有一些特征，h1,h2等标签，位置处于正上方的可能性较大，可能有weight=bold等highlight，再有就是文本相关性等
+
+作者：黑魔法练习生
+链接：https://www.zhihu.com/question/21745035/answer/19250637
+
+
+
+
 Reference:
+
 + Weapon detection
+
   + https://zhuanlan.zhihu.com/p/633667700
   + https://medium.com/the-modern-scientist/build-a-weapon-detection-algorithm-using-yolov7-8d1787c93f96
   + https://medium.com/@cloudgeek/detecting-weapons-using-deep-learning-model-7f7b409a250
-
 + OCR model:
+
   + https://cloud.tencent.com/developer/article/1560769
   + https://tech.meituan.com/2018/06/29/deep-learning-ocr.html
   + Detecting text-rich objects: OCR or object detection? A case study with stopwatch detection

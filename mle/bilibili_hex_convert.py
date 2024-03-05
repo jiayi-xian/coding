@@ -15,7 +15,7 @@ def process_files(base_directory=None):
             continue
     """
     # 使用glob模块来查找所有子文件夹中的.m4s文件
-    for filepath in glob.glob(os.path.join(base_directory, '*/*30280.m4s')):
+    for filepath in glob.glob(os.path.join(base_directory, '*30280.m4s')):
         with open(filepath, 'rb') as file:
             file_data = file.read()
         
@@ -50,13 +50,17 @@ def move_mp4_files(source_directory, target_directory):
         print(f"Moved file: {filepath} to {new_filepath}")
 
 # Source and target directories
-source_directory = '/Users/jiayixian/Movies/21_meditation'
-target_directory = '/Users/jiayixian/Movies/21_meditation/mp4'
+source_directory = '/Users/jiayixian/Movies/bilibili/934606801'
+target_directory = '/Users/jiayixian/Movies/bilibili/934606801/mp4'
 
-
+if not os.path.exists(target_directory):
+    os.makedirs(target_directory)
+    print(f"Directory '{target_directory}' was created.")
+else:
+    print(f"Directory '{target_directory}' already exists.")
 
 # 使用示例
-directory = '/Users/jiayixian/Movies/21_meditation'  # 基础文件夹路径
+directory = '/Users/jiayixian/Movies/bilibili/934606801'  # 基础文件夹路径
 process_files(directory)
 
 # Execute the function

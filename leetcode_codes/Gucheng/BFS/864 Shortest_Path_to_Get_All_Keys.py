@@ -30,8 +30,9 @@ class Solution:
             for _ in range(len(q)):
 
                 x, y, ks = q. popleft()
-                if ks == (1<<nkey) - 1: return steps
-
+                if ks == (1<<nkey) - 1: return steps # 譬如说4把钥匙 那么ks == 01111
+                # (1<<nkey): 1被左移nkey位。10000 -1 -> 01111
+                # 
                 for nx, ny in neis(x, y):
                     cur = G[nx][ny]
 
@@ -44,7 +45,7 @@ class Solution:
                         if (nx, ny, ks) not in vis:
                             vis.add((nx, ny, ks))
                             q.append((nx,ny,ks))
-                    elif cur in ("@", "."): # empty 要注意@的情况 这里不能是cur != "#" 前面的情况都是允许step on的情况，而cur != "#"不满足这个条件，这包括了碰到锁单没有钥匙的情况
+                    elif cur in ("@", "."): # empty 要注意@的情况 这里不能是cur != "#" 前面的情况都是允许step on的情况，而cur != "#"不满足这个条件，这包括了碰到锁但没有钥匙的情况
                         if (nx, ny, ks) not in vis:
                             vis.add((nx, ny, ks))
                             q.append((nx,ny,ks))
