@@ -50,8 +50,8 @@ def move_mp4_files(source_directory, target_directory):
         print(f"Moved file: {filepath} to {new_filepath}")
 
 # Source and target directories
-source_directory = '/Users/jiayixian/Movies/bilibili/934606801'
-target_directory = '/Users/jiayixian/Movies/bilibili/934606801/mp4'
+source_directory = '/Users/jiayixian/Movies/bilibili/1459720855'
+target_directory = '/Users/jiayixian/Movies/bilibili/1459720855/mp4'
 
 if not os.path.exists(target_directory):
     os.makedirs(target_directory)
@@ -60,7 +60,7 @@ else:
     print(f"Directory '{target_directory}' already exists.")
 
 # 使用示例
-directory = '/Users/jiayixian/Movies/bilibili/934606801'  # 基础文件夹路径
+directory = '/Users/jiayixian/Movies/bilibili/1459720855'  # 基础文件夹路径
 process_files(directory)
 
 # Execute the function
