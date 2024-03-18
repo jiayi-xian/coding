@@ -1,3 +1,4 @@
+from typing import *
 class Solution:
     def removeInterval1(self, intervals: List[List[int]], toBeRemoved: List[int]) -> List[List[int]]:
         # 这个也对
