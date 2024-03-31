@@ -1,3 +1,6 @@
+from typing import *
+import heapq
+
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int: # O(2n*log(2n)) 扫描线
         
@@ -17,7 +20,7 @@ class Solution:
             
         
         return maxC
-import heapq
+
     def minMeetingRooms(self, intervals: List[List[int]]) -> int: # n^2logn
 
         # if two schedules overlap, we need to add 1 more room
