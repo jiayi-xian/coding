@@ -33,7 +33,8 @@ public class Code02_TwoNumbersMaximumXor {
 	// 数字只需要从哪一位开始考虑
 	public static int high;
 
-	public static void build(int[] nums) {
+	public static void build(int[] nums) { 
+		//不需要pass end等等
 		cnt = 1;
 		// 找个最大值
 		int max = Integer.MIN_VALUE;
