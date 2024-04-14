@@ -191,9 +191,70 @@ class Solution:
 
         return ans % (10**9 + 7)
 
+    def numDecodings_dp(self, s):
+
+        dp = [-1] * (len(s)+1)
+
+        dp[len(s)] = 1
+        n = len(s)
+        for i in range(n-1, -1, -1):
+            if s[i] == "0": 
+                dp[i] = 0
+                continue
+            dp[i] = 0
+            if s[i] != "*":
+                dp[i] += dp[i+1]
+                if i < len(s)-1:
+                    if s[i+1] != "*":
+                        dp[i] += dp[i+2] if int(s[i: i+2]) <= 26 else 0
+                    else:
+                        dp[i] += 9*dp[i+2] if s[i] == "1" else 0
+                        dp[i] += 6*dp[i+2] if s[i] == "2" else 0
+            elif s[i] == "*":
+                dp[i] += 9*dp[i+1]
+                if i < len(s)-1:
+                    if s[i+1] != "*":
+                        dp[i] += 2* dp[i+2] if int(s[i+1]) <= 6 else 1* dp[i+2]
+                    else:
+                        dp[i] += 15*dp[i+2]
+        
+        return dp[0]
+    
+    def numDecodings_dpc(self, s):
+        n = len(s) 
+        # 转移方程 dp[i] = f(dp[i+1] i 单独decode, dp[i+2] i i+1 一起decode)
+        cur, nex, nnex = 0, 1, 1
+        M = 10**9+7
+
+        for i in range(n-1, -1, -1):
+            if s[i] == "0": 
+                cur = 0
+                cur, nex, nnex = 0, cur % M, nex % M # ! countinue 之间不要忘记移动
+                continue
+            cur += 9*nex if s[i]=="*" else 1*nex # i decode
+            if s[i] != "*":
+                if i<n-1:
+                    if s[i+1] != "*":
+                        cur += nnex if int(s[i:i+2]) <= 26 else 0
+                    else:
+                        if s[i] == "1":
+                            cur += 9*nnex
+                        elif s[i] == "2":
+                            cur += 6*nnex 
+            else:
+                if i<n-1:
+                    if s[i+1] != "*":
+                        cur += nnex *2 if int(s[i+1]) <= 6 else nnex
+                    else:
+                        cur += nnex * 15
+            cur, nex, nnex = 0, cur % M, nex % M
+        return nex 
+
+        # 涉及到的用于存储的变量
+
 
 if __name__ == "__main__":
     sol = Solution()
-    s = "2839"
-    res = sol.numDecodings_memo(s)
+    s = "3*"
+    res = sol.numDecodings_dp_compressed(s)
     print(res)
