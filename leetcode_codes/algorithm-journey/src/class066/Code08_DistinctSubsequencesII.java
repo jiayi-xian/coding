@@ -22,5 +22,4 @@ public class Code08_DistinctSubsequencesII {
 		}
 		return (all - 1 + mod) % mod;
 	}
-
 }
