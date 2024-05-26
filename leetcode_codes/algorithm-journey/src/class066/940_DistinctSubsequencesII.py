@@ -62,9 +62,6 @@ class Solution:
         return (all - 1 + mod) % mod
 
 
-
-
-
 if __name__ == "__main__":
     sol = Solution()
     

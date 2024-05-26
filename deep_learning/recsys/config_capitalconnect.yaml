@@ -1,0 +1,81 @@
+feature_raw:
+  deal_features: [
+    #"cohort_id",
+    # "description", 
+    "company_hq_state", 
+    "deal_type", 
+    "industry_code", 
+    "industry_sector", 
+    "industry_group", 
+    "series",
+    "size"
+  ]
+  deal_features_dense: [
+    #"cohort_id",
+    "company_hq_state",
+    "deal_type",
+    "series"
+  ]
+  deal_features_sparse: [
+  ]
+  deal_features_num: [
+    "size"
+  ]
+  deal_features_text: [ # ! subject to change : "industry_code_top1","industry_code_top2", ...
+    "industry_code_topk",
+    "industry_group_topk",
+    "industry_sector_topk",
+    # "description"
+  ]
+  investor_features: [
+    "series_deal_count",
+    "industry_code",
+    "industry_sector", 
+    "industry_group", 
+  ]
+features:
+  dense_only: false
+  target: "Location"
+  dense_features: "${ oc.dict.keys: features.dense_emb }"
+  sparse_features: "${ oc.dict.keys: features.sparse_emb }"
+  num_features: "${ oc.dict.keys: features.num_emb }"
+  reset_dim_in: true
+  na_fill:
+    BidFeedbackId: "unknown"
+    LogEntryTime: "unknown"
+    CreativeId: "unknown"
+    AdFormat: "unknown"
+    WinningPriceCPMInBucks: 0
+    Site: "unknown"
+    DeviceType: "unknown"
+    OSFamily: "unknown"
+    OS: "unknown" # 105
+    Browser: "unknown" # 106
+    RenderingContext: "unknown" # 3
+    TemperatureInCelsius: -1 #74542
+    Location: 3
+    TDID: 0
+    F: 0 #74542
+    F_: 0 #74542
+    date: "unknown"
+    hour: 25
+    weekday: "unknown"
+    four_hour_interval: 6
+  na_count:
+  dtype:
+  cardinality:
+  dense_emb: {
+      'CreativeId': 
+        {
+          "dim_in": 19627,
+          "dim_out": 128
+        }
+  }
+  sparse_emb: {
+        'Location':
+        {
+          "dim_in": 3,
+          "dim_out": 3
+        }
+  }
+  

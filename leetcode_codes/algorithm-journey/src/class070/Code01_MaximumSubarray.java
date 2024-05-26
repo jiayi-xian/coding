@@ -14,7 +14,7 @@ public class Code01_MaximumSubarray {
 		dp[0] = nums[0];
 		int ans = nums[0];
 		for (int i = 1; i < n; i++) {
-			dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);
+			dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]); // ! 为什么不用考虑 dp[i-k] 因为 dp[i-1] >= dp[i-k] + sum(i-k, i-1) 这是dp[i] 的定义
 			ans = Math.max(ans, dp[i]);
 		}
 		return ans;

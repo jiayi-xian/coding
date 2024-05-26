@@ -1,0 +1,43 @@
+company_description_table: 390322 rows
+company_id,company_legal_name, company_name, company_universe, emergingspaces,description,entity_types, keywords,market_information,other_industries, primary_industry_code,primary_industry_group, primary_industry_sector
+
+description, keywords, primary_industry_code, primary_industry_group, primary_industry_sector
+
+description
+Manufacturer of garments intended to convert great apparel designs into excellent products. The company's solutions include knitting, printing, cutting, sewing and shipping, helping brands to react to market trends and respond to their customers' preferences faster.
+keywords
+apparel manufacturing, apparel production, clothes manufacturer, clothes printing, fashion manufacturing
+primary_industry_code
+
+
+company rel table
+company_id,industry_code,industry_group, industry_sector, is_primary, last_updated,_as_of,_created_by,_created_dt,_feed_source, _md5_hash
+
+
+"""
+deal table
+```
+company_id,deal_id,deal_date,deal_size,deal_type,series
+482537-89,201712-60T,08/15/2022,3.900001,Early Stage VC,Series A2
+482541-13,215403-94T,12/22/2022,2.0,Early Stage VC,
+482542-30,182250-37T,10/01/2021, ,PE Growth/Expansion,
+141491-44, 249729-76T,01/01/2023,,PE Growth/Expansion,
+494294-32,191162-08T,03/25/2022, Early Stage VC,
+532831-66,232857-19T,08/01/2023, ,Early Stage VC,
+532834-93,232819-57T,04/21/2022,10.7,PE Growth/Expansion,
+494297-56,191180-26T,01/01/2018, , LaLer` SLage VC,
+494298-01,191596-06T,02/16/2022, Later Stage VC,
+494298-46,191b8/-331,0b/1//2021, ,tarly Stage VC,
+494301-88,191234-53T,03/29/2022,15.0,Early Stage VC,
+466125-85,180270-73T,03/11/2020,0.0517547, Early Stage VC,
+466130-80,181800-73T,08/27/2021,8.19458972,Early Stage VC,
+466137-10,182010-79T,07/14/2022,50.0,Early Stage VC,Series A
+53516-98,33442-66T,04/28/2014,10.215211, Later Stage VC,Series D1
+535163-50,240939-01T,07/01/2022, PE Growth/Expansion,
+535165-12, 235966-33T,01/11/2022, ,Early Stage VC,
+535169-08,241111-90T,08/08/2023, , Later Stage VC,
+```
+
+
+
+"""

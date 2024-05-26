@@ -5,6 +5,8 @@ package class082;
 // 设计一个算法来计算你所能获取的最大利润。你最多可以完成 两笔 交易
 // 注意：你不能同时参与多笔交易，你必须在再次购买前出售掉之前的股票
 // 测试链接 : https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii
+设dp[i]是在i天进行最后一次卖出获得的总利润 则 dp[i]= dp[k]
+如果以node作为第i天卖出最终的获得利润 则
 public class Code03_Stock3 {
 
 	// 完全不优化枚举的方法
