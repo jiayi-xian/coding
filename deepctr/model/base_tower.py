@@ -17,6 +17,10 @@ from preprocessing.utils import slice_arrays
 
 
 class BaseTower(nn.Module):
+    """
+    Create and initiate embedding layers (nn.ModelDict) for all features
+    Create predict layer for output
+    """
     def __init__(self, user_dnn_feature_columns, item_dnn_feature_columns, l2_reg_embedding=1e-5,
                  init_std=0.0001, seed=1024, task='binary', device='cpu', gpus=None):
         super(BaseTower, self).__init__()
@@ -52,6 +56,10 @@ class BaseTower(nn.Module):
 
     def fit(self, x=None, y=None, batch_size=None, epochs=1, verbose=1, initial_epoch=0, validation_split=0.,
             validation_data=None, shuffle=True, callbacks=None):
+        """
+        Step 1: train_data_dict -> shaped as tensor
+        
+        """
         if isinstance(x, dict):
             x = [x[feature] for feature in self.feature_index]
 
@@ -91,10 +99,10 @@ class BaseTower(nn.Module):
             val_x = []
             val_y = []
 
-        for i in range(len(x)):
+        for i in range(len(x)): # len(x) == number of feature columns
             if len(x[i].shape) == 1:
                 x[i] = np.expand_dims(x[i], axis=1)
-
+        # 每一个feature都变成ndarray
         train_tensor_data = Data.TensorDataset(torch.from_numpy(
             np.concatenate(x, axis=-1)), torch.from_numpy(y))
         if batch_size is None:
@@ -231,7 +239,7 @@ class BaseTower(nn.Module):
         dense_value_list = [X[:, self.feature_index[feat.name][0]:self.feature_index[feat.name][1]] for feat in
                             dense_feature_columns]
 
-        return sparse_embedding_list + varlen_sparse_embedding_list, dense_value_list
+        return sparse_embedding_list + varlen_sparse_embedding_list, dense_value_list # len(list): number of features, (bsz, embedding)
 
     def compute_input_dim(self, feature_columns, include_sparse=True, include_dense=True, feature_group=False):
         sparse_feature_columns = list(

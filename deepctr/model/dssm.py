@@ -12,7 +12,12 @@ from preprocessing.utils import Cosine_Similarity
 
 
 class DSSM(BaseTower):
-    """DSSM双塔模型"""
+    """DSSM双塔模型
+    
+    inputs: (N, M) N: bsz, M: embedding dimension of all the features
+    
+    """
+
     def __init__(self, user_dnn_feature_columns, item_dnn_feature_columns, gamma=1, dnn_use_bn=True,
                  dnn_hidden_units=(300, 300, 128), dnn_activation='relu', l2_reg_dnn=0, l2_reg_embedding=1e-6,
                  dnn_dropout=0, init_std=0.0001, seed=1024, task='binary', device='cpu', gpus=None):

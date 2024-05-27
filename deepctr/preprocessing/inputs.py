@@ -105,6 +105,17 @@ def get_varlen_pooling_list(embedding_dict, features, feature_index, varlen_spar
 
 
 def build_input_features(feature_columns):
+    """
+    Build feature dict from nametuple. Dict: feature_name: (starting index of embedding, ending index of embedding)
+    Parameters:
+        feature_columns: nametuple
+            'name', vocabulary_size, embedding_dim, use_hash, dtype, embedding_name, group_name="default_group"
+            e.g. SparseFeat(name='user_id', vocabulary_size=70, embedding_dim=4, use_hash=False, dtype='int32', embedding_name='user_id', group_name='default_group')
+    Return:
+        features: OrderDict
+            key: str, name of feature
+            val: tuple, (starting index of embedding, ending index of embedding)
+    """
     features = OrderedDict()
 
     start = 0
@@ -118,7 +129,7 @@ def build_input_features(feature_columns):
         elif isinstance(feat, DenseFeat):
             features[feat_name] = (start, start + feat.dimension)
             start += feat.dimension
-        elif isinstance(feat, VarLenSparseFeat):
+        elif isinstance(feat, VarLenSparseFeat): # seq features ! feat.maxlen * emb_dim_txt (the dimension of output of encoder)
             features[feat_name] = (start, start + feat.maxlen)
             start += feat.maxlen
             if feat.length_name is not None and feat.length_name not in features:
@@ -144,7 +155,7 @@ def concat_fun(inputs, axis=-1):
 def combined_dnn_input(sparse_embedding_list, dense_value_list):
     if len(sparse_embedding_list) > 0 and len(dense_value_list) > 0:
         sparse_dnn_input = torch.flatten(
-            torch.cat(sparse_embedding_list, dim=-1), start_dim=1)
+            torch.cat(sparse_embedding_list, dim=-1), start_dim=1) # torch.Size([256, 1, 4]) len 5-> torch.Size([256, 1, 20]) flatten (256,20)
         dense_dnn_input = torch.flatten(
             torch.cat(dense_value_list, dim=-1), start_dim=1)
         return concat_fun([sparse_dnn_input, dense_dnn_input])

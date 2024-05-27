@@ -1,6 +1,6 @@
 feature_raw:
   deal_features: [
-    #"cohort_id",
+    # "cohort_id",
     # "description", 
     "company_hq_state", 
     "deal_type", 

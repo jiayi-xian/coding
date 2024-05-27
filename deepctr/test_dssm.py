@@ -3,7 +3,7 @@ import pandas as pd
 import torch
 from sklearn.metrics import log_loss, roc_auc_score
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from keras.preprocessing.sequence import pad_sequences
+from keras_preprocessing.sequence import pad_sequences
 
 from preprocessing.inputs import SparseFeat, DenseFeat, VarLenSparseFeat
 from model.dssm import DSSM
@@ -37,6 +37,10 @@ def get_item_feature(data):
 
 
 def get_var_feature(data, col):
+    """
+    pad sequence
+    for example, 'genre' features: ["Animation|Children's|Comedy"] -> Animation, Children's, Comedy -> [1,2,3] (key2index) -> ndarray [1,2,3,0,0,0] (maxlen = 6)
+    """
     key2index = {}
 
     def split(x):
@@ -73,7 +77,7 @@ def get_test_var_feature(data, col, key2index, max_len):
 
 
 if __name__ == '__main__':
-    # %%
+    ## %%
     data_path = './data/movielens.txt'
     train, test, data = data_process(data_path, samp_rows=10000)
     train = get_user_feature(train)
@@ -98,31 +102,30 @@ if __name__ == '__main__':
 
     # 2.preprocess the sequence feature
     genres_key2index, train_genres_list, genres_maxlen = get_var_feature(train, 'genres')
-    user_key2index, train_user_hist, user_maxlen = get_var_feature(train, 'user_hist')
-
+    user_key2index, train_user_hist, user_maxlen = get_var_feature(train, 'user_hist') # key2index is for movie (movie's key)
+    # 2.1 convert feat to SparseFeat class
     user_feature_columns = [SparseFeat(feat, data[feat].nunique(), embedding_dim=4)
-                            for i, feat in enumerate(user_sparse_features)] + [DenseFeat(feat, 1, ) for feat in
-                                                                               user_dense_features]
+                            for i, feat in enumerate(user_sparse_features)] + [DenseFeat(feat, 1, ) for feat in user_dense_features]
+    
     item_feature_columns = [SparseFeat(feat, data[feat].nunique(), embedding_dim=4)
-                            for i, feat in enumerate(item_sparse_features)] + [DenseFeat(feat, 1, ) for feat in
-                                                                               item_dense_features]
+                            for i, feat in enumerate(item_sparse_features)] + [DenseFeat(feat, 1, ) for feat in item_dense_features]
 
     item_varlen_feature_columns = [VarLenSparseFeat(SparseFeat('genres', vocabulary_size=1000, embedding_dim=4),
                                                     maxlen=genres_maxlen, combiner='mean', length_name=None)]
 
-    user_varlen_feature_columns = [VarLenSparseFeat(SparseFeat('user_hist', vocabulary_size=3470, embedding_dim=4),
-                                                    maxlen=user_maxlen, combiner='mean', length_name=None)]
+    user_varlen_feature_columns = [VarLenSparseFeat(SparseFeat('user_hist', vocabulary_size=3470, embedding_dim=4), # ? why 3470 and 1000
+                                                    maxlen=user_maxlen, combiner='mean', length_name=None)] # maxlen for user hist: 536
 
     # 3.generate input data for model
     user_feature_columns += user_varlen_feature_columns
     item_feature_columns += item_varlen_feature_columns
 
-    # add user history as user_varlen_feature_columns
+    # add user history as user_varlen_feature_columns   train_model_input: dict
     train_model_input = {name: train[name] for name in sparse_features + dense_features}
-    train_model_input["genres"] = train_genres_list
-    train_model_input["user_hist"] = train_user_hist
+    train_model_input["genres"] = train_genres_list # sequence input belongs to item features
+    train_model_input["user_hist"] = train_user_hist # sequence input belongs to user features
 
-    # %%
+    ## %%
     # 4.Define Model,train,predict and evaluate
     device = 'cpu'
     use_cuda = True
